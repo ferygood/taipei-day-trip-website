@@ -78,24 +78,27 @@ def attractions():
 def attractionid(id):
 	response = {"data":None}
 	attract_id = int(id)
-	sql1 = "select * from main where attract_id='%s'"%(attract_id)
-	mycursor.execute(sql1)
-	result1 = mycursor.fetchone()
-	sql2 = "select img from image where attract_id='%s' limit 1"%(attract_id)
-	mycursor.execute(sql2)
-	result2 = mycursor.fetchone()
-	dct = {}
-	dct["id"] = result1[0]
-	dct["name"] = result1[1]
-	dct["category"] = result1[2]
-	dct["description"] = result1[3]
-	dct["address"] = result1[4]
-	dct["transpot"] = result1[5]
-	dct["mrt"] = result1[6]
-	dct["latitude"] = result1[7]
-	dct["longitude"] = result1[8]
-	dct["image"] = [result2]
-	response["data"] = dct
+	if attract_id not in range(1,320):
+		response = {"error":"true", "message":"id error"}
+	else:
+		sql1 = "select * from main where attract_id='%s'"%(attract_id)
+		mycursor.execute(sql1)
+		result1 = mycursor.fetchone()
+		sql2 = "select img from image where attract_id='%s' limit 1"%(attract_id)
+		mycursor.execute(sql2)
+		result2 = mycursor.fetchone()
+		dct = {}
+		dct["id"] = result1[0]
+		dct["name"] = result1[1]
+		dct["category"] = result1[2]
+		dct["description"] = result1[3]
+		dct["address"] = result1[4]
+		dct["transpot"] = result1[5]
+		dct["mrt"] = result1[6]
+		dct["latitude"] = result1[7]
+		dct["longitude"] = result1[8]
+		dct["image"] = [result2]
+		response["data"] = dct
 	return render_template("/api/attraction.html", title="/api/attraction", jsonfile=json.dumps(response, ensure_ascii=False).encode("utf-8").decode())
 
 app.run(port=3000)
