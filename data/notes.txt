@@ -13,19 +13,18 @@ create database taipei_travel character set utf8;
 use taipei_travel;
 
 -設計 database
-main_table: id (primary key), name (景點名稱), category, 
+main: id (primary key), name (景點名稱), category, 
 description, address (地址), transport, mrt, latitude, longitude
 >
-create table main_table (id bigint auto_increment, name varchar(255) not
+create table main (attract_id int auto_increment, name varchar(255) not
 null, category varchar(255), description longtext, 
 address varchar(255) not null, transport longtext, 
 mrt varchar(255), latitude float, longitude float,
-primary key (id));
+primary key (attract_id));
 
--image_table: id (foreign key), image (景點圖片)
+-image: image_id, image, attract_id (景點圖片)
 >
-create table image_table (id bigint, img varchar(255) not null, 
-foreign key (id) references main_table(id));
+create table image (image_id int auto_increment, img varchar(255), attract_id int, primary key(image_id));
 
 -存取 sql 檔案
 mysqldump --databases taipei_travel -u root -p > taipei_travel_database.sql
@@ -34,3 +33,8 @@ mysqldump --databases taipei_travel -u root -p > taipei_travel_database.sql
 -如果想要改資料型態
 >
 alter table main_table change description description longtext;
+
+-每筆取 12 筆資料
+>
+select attract_id, name from main where name like "%山%" limit 12 offset 0;
+
