@@ -12,7 +12,7 @@ app.config["TEMPLATES_AUTO_RELOAD"]=True
 mydb = mysql.connector.connect(
 	host="localhost",
 	user="root",
-	password="yaomysql86",
+	password="Mysqlyao86%%%",
 	database="taipei_travel"
 )
 
@@ -101,4 +101,4 @@ def attractionid(id):
 		response["data"] = dct
 	return render_template("/api/attraction.html", title="/api/attraction", jsonfile=json.dumps(response, ensure_ascii=False).encode("utf-8").decode())
 
-app.run(port=3000)
+app.run(port=3000,host="0.0.0.0")
