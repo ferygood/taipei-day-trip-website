@@ -11,43 +11,41 @@ mydb = mysql.connector.connect(
     host="localhost",
     user="root",
     password="yaomysql86",
-    database="taipei_travel"
+    database="website"
 )
 
 mycursor = mydb.cursor() #啟動 cursor
 
 """
-有兩個 table: main (id, name, address,....)
-             image (id, img_url)
+一個 table 包含所有的資料
 """
-for n in range(0, len(df)):
-    spot_id = df[n]["_id"]
-    spot_cat2 = df[n]["CAT2"]
-    spot_name = df[n]["stitle"]
-    spot_describe = df[n]["xbody"]
-    spot_transport = df[n]["info"]
-    spot_mrt = df[n]["MRT"]
-    spot_lat = df[n]["latitude"]
-    spot_lon = df[n]["longitude"]
-    spot_address = df[n]["address"]
-    # description
-    #spot_describe_split = spot_describe.split("，")[0]
-    
-    spot_img = df[n]["file"]
-    #因為景點網址的開頭都是 http 所以我們用 http:// 分
-    urls = spot_img.split("http://")[1:]
-    http_urls = ["http://"+url for url in urls] #把 http 補回去
-    img_urls = [url for url in http_urls if url.endswith((".jpg", ".png"))]
-    
-    #將資料放到資料庫內
-    sql1 = "insert into main (attract_id, name, category, description, address, transport,\
-    mrt, latitude, longitude) values (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
-    val1 = (spot_id, spot_name, spot_cat2, spot_describe, spot_address, spot_transport,
-    spot_mrt, spot_lat, spot_lon)
-    mycursor.execute(sql1, val1)
 
-    sql2 = "insert into image (img, attract_id) values (%s, %s)"
-    for url in img_urls:
-        val2 = (url, spot_id)
-        mycursor.execute(sql2, val2)
-    mydb.commit()
+def imgUrl(data):
+    # 將檔名jpg和png的字串篩選出來
+    extension = ["jpg", "png"]
+    imgList = []
+    img = ""
+    imgArray = data.split("http://")
+    for url in imgArray:
+        if any(x in url.lower() for x in extension):
+            imgList.append("http://"+url)
+    img = ",".join(imgList)
+    return img
+
+for res in df:
+    query = "INSERT INTO main \
+    (name, category, description, address, transport, mrt, latitude, longitude, images) \
+    VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    val = (res["stitle"],res["CAT2"],res["xbody"],res["address"],res["info"],res["MRT"], 
+    res["latitude"],res["longitude"], imgUrl(res["file"]))
+    try:
+        mycursor.execute(query, val)
+        mydb.commit()
+    except mysql.connector.Error as err:
+        mydb.roolback() # stop mysql
+        print(err)
+        print("Error Code", err.errno)
+        print("SQLSTATE", err.sqlstate)
+        print("Message", err.msg)
+
+mydb.close()
