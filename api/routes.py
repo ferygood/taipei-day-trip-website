@@ -1,12 +1,22 @@
 from flask import *
 import mysql.connector
+import os
 
-mydb = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="yaomysql86",
-    database="website"
-)
+mydb = ""
+if os.getenv("SERVER_HOST"):
+    mydb = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="Mysqlyao86%%%",
+        database="website"
+    )
+else:
+    mydb = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="yaomysql86",
+        database="website"
+    )
 
 cursor = mydb.cursor(buffered=True)
 
@@ -14,7 +24,7 @@ cursor = mydb.cursor(buffered=True)
 
 api = Blueprint("api", __name__, url_prefix="/api")
 
-@api.route("/attraction/<attractionid>")
+@api.route("/attraction/<attractionid>", methods=["GET"])
 def getAttraction(attractionid):
     # 讓用戶可以用景點 id 做搜尋
     try:
@@ -56,7 +66,7 @@ def getAttraction(attractionid):
         }
         return jsonify(response), 500
 
-@api.route("/attractions")
+@api.route("/attractions", methods=["GET"])
 def getAttractions():
     #讓使用者可以用頁碼和關鍵字做搜尋
     pageNum = 0

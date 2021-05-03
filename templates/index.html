@@ -1,46 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
+    <!--metadata-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>台北一日遊</title>
-    <link rel="stylesheet" href="../static/reset.css">
-    <link rel="stylesheet" href="../static/style.css">
+    <meta name="author" content="Phoebe Pao" />
+    <meta name="description" content="介紹最經典的台北一日遊景點,滿足您對台北的所有想像" />
+    <meta name="rating" content="General" />
+    <meta name="robots" content="index,follow" />
+
+    <!--google font-->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet"><link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
+   
+    <!--!fontawsome-->
+    <script src="https://kit.fontawesome.com/eb2b622fe6.js" crossorigin="anonymous"></script>
+    <title>Taipei Trip 台北一日遊</title>
+    <link rel="stylesheet" type= "text/css" href="{{url_for('static', filename = 'css/index.css')}}">
 </head>
-
-<body class="wrap">
-    <nav class="navigation">
-        <div class="container">
-            <h1 class="logo">台北一日遊</h1>
-            <ul>
-                <il>預定行程</il>
-                <il>登入/註冊</il>
+<body>
+   
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="#"><strong>台北一日遊</strong></a>
+            </div>           
+            <ul class="menu">
+                <li><a href="#">預定行程</a></li>
+                <li><a href="#">登入/註冊</a></li>
             </ul>
-        </div>
-    </nav>
+        </nav>
+    </header>
+
+    <div class="blank"></div>
+    
     <section class="banner">
-        <div class="container">
-            <div class="slogan">
-                <h2>輕鬆享受台北一日悠閒</h2>
-                <p>探索每個角落，體驗城市的深度旅遊行程</p>
-            </div>
-            <div class="search">
-                <input class="keyword" type="text" placeholder="輸入景點名稱查詢">
-                <div class="searchBtn"><img src="../static/img/search.png" alt=""></div>
-            </div>
+        <div class="left">
+            <h2><strong>輕鬆享受台北一日休閒</strong></h2>
+            <h4>探索每個角落，體驗城市的深度旅遊行程</h4>
+            
+            <form action="" class="search_spot">
+                <label for="search"></label>
+                <input type="text" id="searchBar" name="search" placeholder="輸入景點名稱查詢" required>
+                <button class="search_icon" type='submit'>
+                    <img src="../static/img/icon_search.png" alt="放大鏡搜尋圖示">
+                </button> 
+            </form> 
         </div>
-        <img class="dec_img" src="../static/img/welcomeFig.png" alt="">
-    </section>
-    <section calss="attractions">
-        <div class="container">
 
+        <div class="right">
+            <img src="../static/img/welcomeFig.png" alt="banner圖">
         </div>
-        <div class="nodata">資料到底</div>
     </section>
+    
+    <main>
+        <div class="cards"></div>
+    </main>
+    
     <footer>
-        <div class="copyright">COPYRIGHT © 2021 台北一日遊</div>
+        <h4>COPYRIGHT © 2021 台北一日遊</h4>
     </footer>
-    <script src="static/index.js"></script>
-</body>
 
+</body>
+<script src="{{url_for('static', filename = 'js/index.js')}}"></script>
 </html>
