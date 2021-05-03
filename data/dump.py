@@ -10,7 +10,7 @@ df = data["result"]["results"]
 mydb = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="yaomysql86",
+    password="Mysqlyao86%%%",
     database="website"
 )
 

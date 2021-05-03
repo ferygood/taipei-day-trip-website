@@ -34,7 +34,7 @@ async function loadAttractions() {
   data = result.data;
   nextpage = result.nextpage;
 
-  if (data.length === 0 && search_mode) {
+  if (data.length === 0 && currentPage==0) {
     document.querySelector(".cards").innerHTML = "無關鍵字景點";
     return;
   }

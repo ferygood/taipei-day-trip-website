@@ -3,7 +3,7 @@ import mysql.connector
 import os
 
 mydb = ""
-if os.getenv("SERVER_HOST"):
+if os.getenv("HOME")=="/home/ec2-user":
     mydb = mysql.connector.connect(
         host="localhost",
         user="root",

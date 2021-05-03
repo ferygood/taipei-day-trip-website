@@ -31,7 +31,7 @@ def thankyou():
 app.register_blueprint(api)
 
 # 條件式可同時在本地端和 EC2 上做測試
-if os.getenv("SERVER_HOST"):
+if os.getenv("HOME")=="/home/ec2-user":
 	app.run(port=3000, host="0.0.0.0")
 else:
 	app.run(port=3000)
