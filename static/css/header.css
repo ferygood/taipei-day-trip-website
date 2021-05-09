@@ -1,0 +1,340 @@
+
+.header {
+   display: flex; 
+   justify-content: center;
+   align-items: center;
+
+   position: relative;
+   width: var(--window-width); max-width: 100%;
+   height: 320px;
+   top: 54px;
+   background: linear-gradient(135deg, #AADDEE 0%, #66AABB 100%);
+}
+
+.header .header-area {
+   display: flex; 
+   justify-content: flex-start;
+   align-items: center;
+
+   position: relative;
+   width: var(--content-width); max-width: var(--max-width);
+   height: 169px;
+
+   padding: 0px 10px;
+   margin: auto;
+
+   z-index: 3;
+}
+
+.header .image {
+   position: absolute;
+   right: 10%;
+   bottom: 0;
+
+   width: 650px;
+   max-width: 55%;
+   height: auto; 
+   aspect-ratio: 650 / 320;
+
+   flex: none;
+   order: 0;
+   flex-grow: 0;
+
+   overflow: hidden;
+
+   background-position: center center;
+}
+
+.header .image img {
+   max-width: 100%;
+   max-height: 100%;
+}
+
+.header-area .text-area {
+   position: relative;   
+   width: var(--text-area-width);
+   height: 100%;
+}
+
+.text-area .title {
+   position: relative;
+   width: var(--text-area-width);
+   height: 41px;
+
+   font-family: Noto Sans TC;
+   font-style: normal;
+   font-weight: bold;
+   font-size: 28px;
+   line-height: 24px;
+   /* or 86% */
+
+   display: flex;
+   align-items: center;
+
+   margin-bottom: 15px;
+
+   color: #F8F8F8;
+
+   text-shadow: 0px 0px 30px #AABBCC;
+}
+
+.text-area .text {
+   position: relative;
+   width: var(--text-area-width);
+   height: 22px;
+
+   margin-bottom: 25px;
+
+   font-family: Noto Sans TC;
+   font-style: normal;
+   font-weight: normal;
+   font-size: 16px;
+   line-height: 13px;   
+   display: flex;
+   align-items: center;   
+
+   color: #F8F8F8;
+}
+
+.text-area .search {
+   display: flex; flex-wrap: nowrap;
+   position: relative;
+   width: var(--text-area-width);
+   height: 46px;
+
+   border-radius: 5px;
+}
+
+.text-area .search input {
+   position: relative;
+   width: calc(var(--text-area-width) - var(--search-icon-width));
+   height: 46px;
+
+   font-family: Noto Sans TC;
+   font-style: normal;
+   font-weight: bold;
+   font-size: 16px;
+   line-height: 13px;
+
+   color: #757575;
+
+   padding: 10px;
+
+   filter: drop-shadow(0px 0px 20px #AABBCC);
+   border: none;
+   outline: none;
+
+   border-radius: 5px 0px 0px 5px;
+}
+
+.text-area .search input:hover,
+.text-area .search input:focus {
+   border: 2px ridge blue;
+}
+
+.text-area .search button {
+   display: flex; justify-content: center; align-items: center;
+   position: relative;
+   width: var(--search-icon-width);
+   height: 46px;
+
+   filter: drop-shadow(0px 0px 20px #AABBCC);
+   background-color: #448899;
+
+   border-radius: 0px 5px 5px 0px;
+
+   border: none;
+   outline: none;
+}
+
+.text-area .search button:hover {
+   background-color: rgb(0, 68, 255);
+}
+
+/* for signin-up popup modal */
+.modal {
+	position: fixed;
+	top: 220px;
+	left: 50%;
+	transform: translate(-50%, -50%) scale(0);
+	transition: 200ms ease-in-out;
+	border: 1px ridge white;
+	border-radius: 7px;
+	z-index: 10;
+	width: 340px;
+	height: 275px;
+	max-width: 95%;
+	max-height: 80%;
+}
+.modal.active,
+.modal.signup.active {
+	transform: translate(-50%, -50%) scale(1);
+}
+
+.modal-header {
+   position: absolute;
+   top: 0px;
+   width: 100%;
+   height: 10px;
+
+   background: linear-gradient(270deg, #337788 0%, #66AABB 100%);
+   border-radius: 5px 5px 0px 0px;
+}
+
+.modal-body {
+   display: flex; flex-direction: column; align-items: center;
+
+   position: absolute;
+   bottom: 0;
+
+	padding: 15px 15px;
+	max-width: 100%;
+   height: 265px;
+	max-height: 100%;
+
+   background-color: white;
+
+   border-radius: 0px 0px 5px 5px;
+}
+
+.modal-body .title {
+   font-family: Noto Sans TC;
+   font-style: normal;
+   font-weight: bold;
+   font-size: 24px;
+   line-height: 27px;
+      
+   color: #666666;   
+
+   width: 100%;
+   height: 27px;
+
+   text-align: center;
+
+   margin-bottom: 10px;
+}
+
+.modal-body .close-button {
+   position: absolute;
+   right: 17px;
+	cursor: pointer;
+	border: none;
+	outline: none;
+	background: none;
+	font-weight: bold;
+
+   width: 16px;
+   height: 16px;
+
+   background-image: url(../image/icon_close.png);
+
+   box-shadow: 0 rgba(51, 51, 51, 0.5);
+   transition: 0.3s;
+}
+
+.modal-body .close-button:hover {
+   position: absolute;
+   top: 12px;
+   box-shadow: 0 3px 15px 3px rgba(51, 51, 51, 0.5);
+}
+
+.modal-body form {
+   display: grid;
+   grid-template-columns: 310px;
+   grid-template-rows: repeat(3, 47px);
+   grid-gap: 10px;
+}
+
+.modal-body form input {
+   font-family: Noto Sans TC;
+   font-style: normal;
+   font-weight: normal;
+   font-size: 16px;
+   line-height: 13px;  
+   
+   color: #666666;
+   background: #FFFFFF;
+   
+   border: 1px solid #CCCCCC;
+   box-sizing: border-box;
+   border-radius: 5px;
+
+   padding: 15px;
+}
+
+.modal-body form button {
+   font-family: Noto Sans TC;
+   font-style: normal;
+   font-weight: normal;
+   font-size: 19px;
+   line-height: 16px;
+      
+   color: #FFFFFF;
+
+   background: #448899;
+   border: none;
+   outline: none;
+   border-radius: 5px;
+}
+
+.modal-body form button:hover {
+   background-color: rgb(0, 68, 255);
+}
+
+.modal-body a {
+   text-decoration: none;
+   margin-top: 10px;
+
+   font-family: Noto Sans TC;
+   font-style: normal;
+   font-weight: normal;
+   font-size: 16px;
+   line-height: 13px;
+
+   color: #666666;
+
+   padding: 5px;
+}
+
+.modal-body a:hover {
+   background-color: rgb(0, 68, 255);
+   color: white;
+   border-radius: 5px;
+}
+
+/* For signup */
+.modal.signup {
+   position: fixed;
+	top: 250px;
+   height: 332px;
+}
+
+.modal.signup .modal-body {
+   height: 322px;
+}
+
+.modal.signup .modal-body form {
+   display: grid;
+   grid-template-columns: 310px;
+   grid-template-rows: repeat(4, 47px);
+   grid-gap: 10px;
+}
+
+/* overlay */
+#overlay {
+	position: fixed;
+	opacity: 0;
+	transition: 200ms ease-in-out;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, .5);
+	pointer-events: none;
+}
+
+#overlay.active {
+	opacity: 1;
+	pointer-events: all;
+   z-index: 8;
+}
