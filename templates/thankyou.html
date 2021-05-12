@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Thank You</title>
+   <link href="{{ url_for('static', filename='css/navbar.css') }}" rel="stylesheet" type="text/css" media="all">
+   <link href="{{ url_for('static', filename='css/thankyou.css') }}" rel="stylesheet" type="text/css" media="all">
+   <link href="{{ url_for('static', filename='css/media.css') }}" rel="stylesheet" type="text/css" media="all">
+   <script defer src="{{ url_for('static', filename='js/index.js') }}"></script>
+</head>
+<body>
+   <div class="nav">
+      <nav class="navbar">
+         <div class="title"><a href="/">台北一日遊</a></div>
+         <div class="navbar-links">
+            <ul>
+               <li><a href="/booking" target="_blank">預定行程</a></li>
+               <li><button data-modal-target="#modalSignin">登入/註冊</button></li>
+            </ul>
+         </div>
+      </nav>
+   </div>
+
+   <main class="main">
+   </main>
+
+   <footer class="footer">
+      <div class="text">COPYRIGHT © 2021 台北一日遊</div>
+   </footer>      
+</body>
+</html>

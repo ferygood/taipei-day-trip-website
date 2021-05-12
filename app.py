@@ -1,26 +1,34 @@
-from flask import *
-from api.routes import api
+from flask import Flask, Blueprint, render_template, session
+from datetime import timedelta
 import os
 
-app=Flask(
-	__name__,
-	static_folder="static",
-	static_url_path="/static"
-	)
+from mysql_connect import selectAttractions, selectAttraction
 
-app.config["JSON_AS_ASCII"]=False
-app.config["TEMPLATES_AUTO_RELOAD"]=True
-app.config["JSON_SORT_KEYS"]=False #讓 jsonify 不要按照字母順序，要按照自己設計順序
+from api.attraction import api_attraction
+from api.user import api_user
+from api.booking import api_booking
+from api.order import api_order
+
+app=Flask(__name__)
+app.register_blueprint(api_attraction, url_prefix="/api")
+app.register_blueprint(api_user, url_prefix="/api")
+app.register_blueprint(api_booking, url_prefix="/api")
+app.register_blueprint(api_order, url_prefix="/api")
+
+app.config["JSON_SORT_KEYS"] = False
+app.config["JSON_AS_ASCII"] = False
+app.config["TEMPLATES_AUTO_RELOAD"] = True
+
+app.config["SECRET_KEY"] = os.urandom(24)
+app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(days = 1)
 
 # Pages
 @app.route("/")
 def index():
 	return render_template("index.html")
-
 @app.route("/attraction/<id>")
 def attraction(id):
 	return render_template("attraction.html")
-
 @app.route("/booking")
 def booking():
 	return render_template("booking.html")
@@ -28,10 +36,16 @@ def booking():
 def thankyou():
 	return render_template("thankyou.html")
 
-app.register_blueprint(api)
+# Signin-up
+@app.route("/signin")
+def signin():
+	return "signin"
 
-# 條件式可同時在本地端和 EC2 上做測試
-if os.getenv("HOME")=="/home/ec2-user":
-	app.run(port=3000, host="0.0.0.0")
-else:
-	app.run(port=3000)
+@app.route("/signup")
+def signup():
+	return "signup"
+
+if __name__ == "__main__":
+	app.config['TEMPLATES_AUTO_RELOAD'] = True
+	# debug 記得關掉
+	app.run(host="0.0.0.0", port=3000, debug=False)

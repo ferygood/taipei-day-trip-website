@@ -4,20 +4,20 @@ mysql -u root -p yaomysql86
 
 -建立 database
 >
-create database website character set utf8;
+create database taipei character set utf8;
 
 -使用 database
 >
-use taipei_travel;
+use taipei;
 
 -設計 database
 main: id (primary key), name (景點名稱), category, 
 description, address (地址), transport, mrt, latitude, longitude, images
 >
-create table main (id int not null auto_increment, name varchar(255), 
-category varchar(255), description longtext, address varchar(255) not null, 
-transport longtext, mrt varchar(255), latitude float, longitude float, 
-images longtext, primary key (id));
+create table attractions (id bigint not null, name varchar(255) not null,
+category varchar(255) not null, description text not null, address varchar(255) not null, 
+transport text, mrt varchar(255) default null, latitude float not null,
+longitude float not null, images_url text not null, primary key (id));
 
 -reset auto_increment
 ALTER TABLE main AUTO_INCREMENT=1;

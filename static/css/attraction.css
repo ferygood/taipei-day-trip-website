@@ -1,0 +1,328 @@
+/* attraction-introduction */
+.attraction-introduction {
+   display: flex; justify-content: space-around; align-items: center;
+
+   position: relative;
+   top: 54px;
+
+   width: 1200px;
+   max-width: 100%;
+   height: 410px;
+
+   margin: 37px auto;
+}
+
+.attraction-introduction .carousel {
+   position: relative;
+
+   width: 45%;
+   height: 100%;
+}
+
+.attraction-introduction .carousel .attraction-image, 
+.attraction-introduction .carousel .attraction-image img {
+   width: 100%;
+   height: 100%;
+
+   border-radius: 5px;
+}
+
+.attraction-introduction .carousel .attraction-image {
+   position: relative;
+}
+
+.attraction-introduction .carousel .attraction-image img {
+   position: absolute;
+   top: 0;
+   left: 0;
+   
+   opacity: 0;
+
+   transition: 500ms ease-in-out;
+}
+
+.attraction-introduction .carousel .attraction-image img.active {
+   opacity: 1;
+}
+
+.attraction-introduction .carousel #left-arrow,
+.attraction-introduction .carousel #right-arrow {
+   position: absolute;
+   top: 50%;
+   transform: translateY(-50%);
+
+   opacity: 0.5;
+}
+
+.attraction-introduction .carousel #left-arrow {
+   left: 2%;
+}
+
+.attraction-introduction .carousel #right-arrow {
+   right: 2%;
+}
+
+.attraction-introduction .carousel #left-arrow:hover,
+.attraction-introduction .carousel #right-arrow:hover {
+   opacity: 1;
+}
+
+.attraction-introduction .carousel .circle-area {
+   display: flex; justify-content: space-between; align-items: center;
+   position: absolute;
+   left: 50%;
+   bottom: 3%;
+
+   width: auto;
+
+   transform: translateX(-50%);
+}
+
+
+.attraction-introduction .carousel .circle-area .circle {
+   background-color: white;
+
+   width: 12px;
+   height: 12px;
+
+   margin: 0px 10px;
+
+   border-radius: 50%;
+
+   transition: 500ms ease-in-out;
+}
+
+.attraction-introduction .carousel .circle-area .circle.active {
+   background-color: black;
+   border: 1.5px solid #FFFFFF;
+}
+
+.attraction-introduction .information {
+   display: flex; flex-direction: column; justify-content: space-between;
+
+   position: relative;
+   
+   width: 50%;
+   height: 100%;
+
+   padding: 10px 0px;
+}
+
+.attraction-introduction .information .name {
+   width: 100%;
+   height: 33px;
+
+   font-family: Noto Sans TC;
+   font-style: normal;
+   font-weight: bold;
+   font-size: 24px;
+   line-height: 24px;
+
+   color: #666666;
+}
+
+.attraction-introduction .information .category-mrt {
+   width: 100%;
+   height: 22px;
+
+   font-family: Noto Sans TC;
+   font-style: normal;
+   font-weight: normal;
+   font-size: 16px;
+   line-height: 13px;
+
+   color: #666666;
+}
+
+.attraction-introduction .information .schedule-order {
+   display: flex; flex-direction: column; justify-content: space-around;
+   width: 100%;
+   height: 302px;
+
+   background: #E8E8E8;
+   border-radius: 5px;
+
+   padding: 15px 20px;
+}
+
+.attraction-introduction .information .schedule-order .title,
+.attraction-introduction .information .schedule-order .text,
+.attraction-introduction .information .schedule-order .date-title,
+.attraction-introduction .information .schedule-order .date,
+.attraction-introduction .information .schedule-order .date input,
+.attraction-introduction .information .schedule-order .time-title,
+.attraction-introduction .information .schedule-order .time,
+.attraction-introduction .information .schedule-order .fee-title,
+.attraction-introduction .information .schedule-order .fee,
+.attraction-introduction .information .schedule-order .fee-number {
+   font-family: Noto Sans TC;
+   font-style: normal;
+   font-weight: bold;
+   font-size: 16px;
+   line-height: 13px;
+   
+   color: #666666;
+}
+
+.attraction-introduction .information .schedule-order .text,
+.attraction-introduction .information .schedule-order .date, 
+.attraction-introduction .information .schedule-order .time, 
+.attraction-introduction .information .schedule-order .fee, 
+.attraction-introduction .information .schedule-order .fee-number {
+   font-weight: normal;
+}
+
+.attraction-introduction .information .schedule-order #form {
+   display: grid; justify-content: flex-start; align-content: center; align-items: center;
+   grid-template-columns: 80px 200px;
+   grid-template-rows: repeat(4, minmax(0, 1fr));
+   gap: 5px;
+
+   height: 70%;
+}
+
+.attraction-introduction .information .schedule-order .date input {
+   border: none;
+   outline: none;
+   background: #FFFFFF;
+
+   font-size: 16px;
+   padding: 5px 10px;
+}
+
+.attraction-introduction .information .schedule-order .date input:hover {
+   border: 2px ridge blue;
+}
+
+.attraction-introduction .information .schedule-order .time {
+   display: flex; justify-content: space-around; align-items: center; 
+   width: 80%;
+}
+
+.attraction-introduction .information .schedule-order .time input {
+   -webkit-appearance: none;
+   -moz-appearance: none;
+   appearance: none;
+
+   border-radius: 50%;
+   width: 20px;
+   height: 20px;
+ 
+   background-color: #FFFFFF;
+   transition: 0.2s all linear;
+   outline: none;
+   margin-right: 5px;
+}
+
+.attraction-introduction .information .schedule-order .time input:checked {
+   background-color: #448899;
+   border: 2px solid #FFFFFF;
+}
+
+.attraction-introduction .information .schedule-order button {
+   width: 154px;
+   height: 36px;
+
+   background: none;
+   border: none;
+   outline: none;
+
+   background: #448899;
+   border-radius: 5px;
+
+   font-family: Noto Sans TC;
+   font-style: normal;
+   font-weight: normal;
+   font-size: 19px;
+   line-height: 36px;
+
+   display: flex;
+   justify-content: center;
+   align-items: center;
+
+   color: #FFFFFF;
+
+   padding: 20px 0px;
+}
+
+.attraction-introduction .information .schedule-order button:hover {
+   background-color: rgb(0, 68, 255);
+}
+
+/* hr */
+hr {
+   position: relative;
+   top: 54px;
+   border: 1px solid #E8E8E8;
+   margin: 0px auto;
+
+   width: 1200px;
+   max-width: 90%;
+}
+
+/* section */
+section {
+   position: relative;
+   top: 54px;
+   
+   width: var(--content-width);
+   max-width: 90%;
+
+   margin: 50px auto 55px;
+
+   padding: 0px 10px;
+
+   font-family: Noto Sans TC;
+   font-style: normal;
+   font-weight: normal;
+   font-size: 16px;
+   line-height: 35px;
+
+   color: #666666;
+}
+
+section .descrption,
+section .addressArea,
+section .transportArea {
+   width: 100%;
+   margin: 20px auto;
+}
+
+section .addressArea .title,
+section .transportArea .title {
+   font-weight: bold;
+}
+
+/* Footer */
+.footer {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   
+   position: relative;
+   top: 54px;
+   width: var(--window-width);
+   max-width: 100%;
+   height: var(--footer-height);
+   bottom: 0px;
+      
+   background: #757575;   
+}
+
+.footer .text{
+   width: 234px;
+   height: 24px;
+
+   font-family: Noto Sans TC;
+   font-style: normal;
+   font-weight: bold;
+   font-size: 16px;
+   line-height: 13px;
+   
+   display: flex;
+   align-items: center;
+
+   padding: 5px 0px;
+      
+   color: #FFFFFF;
+}

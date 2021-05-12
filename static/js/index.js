@@ -1,110 +1,170 @@
-let nextpage;
-let observer;
 
-function new_observer() {
-  let options = {
-    root: null,
-    rootMargin: "0px",
-    threshold: 0.5,
-  };
-  observer = new IntersectionObserver(handleInternet, options);
-  observer.observe(document.querySelector("footer"));
-}
-new_observer();
+// display attractions
+let page = 0;
 
-function handleInternet(entries) {
-  if (entries[0].isIntersecting) {
-    loadAttractions();
-  }
-}
+// Detect Fetching or not
+let isFetching = false;
 
-let currentPage = 0;
-let search_mode = false;
-let keyword;
-async function loadAttractions() {
-  let response;
-  if (!search_mode) {
-    response = await fetch("/api/attractions?page=" + currentPage);
-  } else {
-    response = await fetch(
-      "/api/attractions?page=" + currentPage + "&keyword=" + keyword
-    );
-  }
-  const result = await response.json();
-  data = result.data;
-  nextpage = result.nextpage;
+// search form
+const searchform = document.getElementById('searchform');
 
-  if (data.length === 0 && currentPage==0) {
-    document.querySelector(".cards").innerHTML = "無關鍵字景點";
-    return;
-  }
+searchform.addEventListener('submit', (e) => {
+   e.preventDefault();
 
-  getMain(data);
+   const mainElement = document.getElementsByClassName('main')[0];
 
-  if (nextpage !== null) {
-    currentPage++;
-  } else {
-    observer.unobserve(document.querySelector("footer"));
-  }
-}
+   removeAllChildNodes(mainElement);
 
-function getMain(data) {
-  let cards = document.querySelector(".cards");
-  for (let item of data) {
-    let card = document.createElement("div");
-    card.classList = "mycard";
+   page = 0;
 
-    let img = document.createElement("img");
-    img.setAttribute("src", item["images"][0]);
-    img.setAttribute("alt", item["name"]);
-
-    let attraction_title = document.createElement("h3");
-    let title = document.createTextNode(item["name"]);
-    attraction_title.appendChild(title);
-
-    let attraction_mrt = document.createElement("p");
-    let mrt = document.createTextNode(item["mrt"]);
-    attraction_mrt.appendChild(mrt);
-
-    let attraction_category = document.createElement("p");
-    let category = document.createTextNode(item["category"]);
-    attraction_category.appendChild(category);
-
-    let p_container = document.createElement("div");
-    p_container.classList = "pContainer";
-    p_container.appendChild(attraction_mrt);
-    p_container.appendChild(attraction_category);
-
-    let img_container = document.createElement("div");
-    img_container.classList = "imgContainer";
-    img_container.appendChild(img);
-    img_container.appendChild(attraction_title);
-    img_container.appendChild(p_container);
-
-    card.appendChild(img_container);
-    cards.appendChild(card);
-  }
-}
-
-const search = document.querySelector(".search_spot");
-search.addEventListener("submit", (e) => {
-  e.preventDefault();
-  currentPage = 0;
-  document.querySelector(".cards").innerHTML = "";
-  search_mode = true;
-
-  keyword = e.target[0].value;
-
-  observer.unobserve(document.querySelector("footer"));
-  new_observer();
+   search();
 });
 
-let header = document.querySelector("header");
-window.addEventListener("scroll", () => {
-  if (window.pageYOffset != 0) {
-    header.style.backgroundColor = "white";
-    header.style.boxShadow = "3px 3px 5px 1px rgb(128, 128, 128)";
-  } else {
-    header.style = "";
-  }
-});
+const searchInput = document.getElementById('searchInput');
+searchInput.addEventListener('keyup', e => {
+   if (e.code == 'Enter') {
+      e.preventDefault();
+      document.getElementById('searchInput').blur();
+   }
+})
+
+search();
+
+function search() {
+   isFetching = true;
+
+   let keyword = document.getElementsByName('keyword')[0].value;
+
+   const src = srcDetermine(page, keyword);
+   if (!src) return;
+
+   fetchAPI(src);
+}
+
+function removeAllChildNodes(parent) {
+   while (parent.firstChild) {
+      parent.removeChild(parent.firstChild);
+   }
+}   
+
+function srcDetermine(page, keyword) {
+   if (page != null && keyword) {
+      return `api/attractions?page=${page}&keyword=${keyword}`;
+   }
+   if (page != null) {
+      return `api/attractions?page=${page}`;
+   }
+   return null;
+}
+
+function fetchAPI(src) {
+   fetch(src)
+      .then(response => response.json())
+      .then((result) => {
+         let attractionDataArray = result.data;
+         let nextPage = result.nextPage;
+         
+         const mainElement = document.getElementsByClassName('main')[0];
+
+         createDetermine(attractionDataArray, mainElement);
+         page = nextPage;
+      })
+      .then(() => {
+            isFetching = false;
+         }
+      )
+      .catch(error => console.log(error));
+}
+
+function createDetermine(attractionDataArray, mainElement) {
+   if (attractionDataArray == null) {
+      const titleElement = createNoResultElement();
+
+      mainElement.appendChild(titleElement);
+   } else {
+         for (let attractionData of attractionDataArray) {
+            let attractionElement = document.createElement('a');
+            attractionElement.classList.add('attraction');
+            mainElement.appendChild(attractionElement);
+         
+            createAPIElement(attractionData, attractionElement);          
+         }
+      } 
+}
+
+function createAPIElement(attractionData, attractionElement) {
+   let image = attractionData.images[0];
+   let title = attractionData.name;
+   let mrt = attractionData.mrt;
+   if (mrt == null) {
+      mrt = '無';
+   }
+   let category = attractionData.category;
+   let id = attractionData.id;
+
+   attractionElement.href = `attraction/${id}`;
+
+   let attractionImage = document.createElement('div');
+   attractionImage.classList.add('attraction-image');
+   let imgElement = document.createElement('img');
+   imgElement.src = image;
+
+   attractionImage.appendChild(imgElement);
+   attractionElement.appendChild(attractionImage);
+
+   let titleElement = document.createElement('div');
+   titleElement.classList.add('title');
+   let titleContent = document.createTextNode(title);
+
+   titleElement.appendChild(titleContent);
+   attractionElement.appendChild(titleElement);            
+
+   let mrtElement = document.createElement('div');
+   mrtElement.classList.add('mrt');
+   let mrtContent = document.createTextNode(mrt);
+
+   mrtElement.appendChild(mrtContent);
+   attractionElement.appendChild(mrtElement);            
+
+   let categoryElement = document.createElement('div');
+   categoryElement.classList.add('category');
+   let categoryContent = document.createTextNode(category);
+
+   categoryElement.appendChild(categoryContent);
+   attractionElement.appendChild(categoryElement);    
+}
+
+function createNoResultElement() {
+   let titleElement = document.createElement('div');
+   titleElement.classList.add('no-result');
+   const noResultConetent = document.createTextNode('沒有結果');
+
+   titleElement.appendChild(noResultConetent);
+
+   return titleElement;
+}
+
+// Infinite Scroll
+window.addEventListener('scroll', debounce(infiniteScroll));
+
+function debounce(func, wait = 100) {
+   let timeout;
+   return function() {
+      const later = function() {
+         clearTimeout(timeout);
+         func();
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+   };
+}
+
+function infiniteScroll() {
+   if (page == null) return;
+   if (window.scrollY + window.innerHeight >= (document.body.scrollHeight - 200)) {
+      if (!isFetching) {
+         search();
+      }
+   }
+}
+
