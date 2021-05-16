@@ -7,21 +7,12 @@ load_dotenv()
 
 def init_db():
    return mysql.connector.connect(
-      host = os.getenv("SERVER_HOST"),
-      port = os.getenv("SERVER_PORT"),
-      user = os.getenv("SERVER_USER"),
-      password = os.getenv("SERVER_PASSWORD"),
-      database = os.getenv("SERVER_DATABASE"),
+      user = "root",
+      password = "Mysqlyao%%%",
+      database = "taipei",
       charset = "utf8")
 
 taipeiDB = init_db()
-
-# try:
-#    taipeiDB.ping(True)
-# except mysql.connector.Error as err:
-#    print(err)
-#    taipeiDB.reconnect()
-
 taipeiCursor = taipeiDB.cursor()
 
 # ====================

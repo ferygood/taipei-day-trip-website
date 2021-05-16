@@ -7,7 +7,7 @@ load_dotenv()
 
 websiteDB = mysql.connector.connect(
    user = "root",
-   password = "Mysqlyao86%%%",
+   password = "Mysqlyao%%%",
    database = "taipei",
    charset = "utf8"
 )
