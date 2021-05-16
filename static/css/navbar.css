@@ -116,6 +116,8 @@ html, body {
 }
 
 .navbar-links li button {
+   display: block;
+
    background: none;
    border: none;
    outline: none;
@@ -123,10 +125,12 @@ html, body {
    cursor: pointer;
 }
 
+.navbar-links li button.hidden {
+   display: none;
+}
+
 .navbar-links li button:hover,
-.navbar-links li button:focus,
-.navbar-links li a:hover,
-.navbar-links li a:focus {
+.navbar-links li a:hover {
    background-color: rgb(0, 68, 255);
    color: white;
 }

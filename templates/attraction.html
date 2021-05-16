@@ -1,110 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-   <meta charset="UTF-8">
-   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Attraction</title>
-   <link href="{{ url_for('static', filename='css/navbar.css') }}" rel="stylesheet" type="text/css" media="all">
-   <link href="{{ url_for('static', filename='css/header.css') }}" rel="stylesheet" type="text/css" media="all">
-   <link href="{{ url_for('static', filename='css/attraction.css') }}" rel="stylesheet" type="text/css" media="all">
-   <link href="{{ url_for('static', filename='css/media.css') }}" rel="stylesheet" type="text/css" media="all">
-   <script defer src="{{ url_for('static', filename='js/attraction.js') }}"></script>
-   <script defer src="{{ url_for('static', filename='js/signin-up.js') }}"></script>
- </head>
-<body>
-   <div class="nav">
-      <nav class="navbar">
-         <div class="title"><a href="/">台北一日遊</a></div>
-         <div class="navbar-links">
-            <ul>
-               <li><a href="/booking" target="_blank">預定行程</a></li>
-               <li><button data-modal-target="#modalSignin">登入/註冊</button></li>
-            </ul>
-         </div>
-      </nav>
+{% extends "base.html" %}
+
+{% block title %}Attraction{% endblock %}
+
+{% block css %}<link href="{{ url_for('static', filename='css/attraction.css') }}" rel="stylesheet" type="text/css" media="all">{% endblock %}
+
+{% block js %}<script defer src="{{ url_for('static', filename='js/attraction.js') }}"></script>{% endblock %}
+
+{% block content %}
+<div class="attraction-introduction">
+   <div class="carousel">
+      <div class="attraction-image"></div>
+      <img id="left-arrow" src="{{ url_for('static', filename='image/btn_leftArrow.png') }}" alt="">
+      <img id="right-arrow" src="{{ url_for('static', filename='image/btn_rightArrow.png') }}" alt="">
+      <div class="circle-area"></div>
    </div>
-
-   <div class="modal" id="modalSignin">
-		<div class="modal-header"></div>
-		<div class="modal-body">
-			<div class="title">登入會員帳號</div>
-			<button data-close-button class="close-button"></button>
-         <form method="POST">
-            <input type="email" name="email" placeholder="輸入電子信箱" required>
-            <input type="password" name="password" placeholder="輸入密碼" required>
-            <button type="submit">登入帳戶</button>
+   <div class="information">
+      <div class="name"></div>
+      <div class="category-mrt"></div>
+      <div class="schedule-order">
+         <div class="title">訂購導覽行程</div>
+         <div class="text">以此景點為中心的一日行程，帶您探索城市角落故事</div>
+         <form id="form" method="POST">
+            <input type="text" name="id" id="idInput" style="display: none;">
+            <div class="date-title">選擇日期：</div>
+            <div class="date">
+               <input type="date" name="date" id="date" required>
+            </div>
+            <div class="time-title">選擇時間：</div>
+            <div class="time">
+               <input type="radio" name="halfDay" id="firstHalfDay" value="morning" required checked>
+               <label for="firstHalfDay">上半天</label>
+               <input type="radio" name="halfDay" id="secondHalfDay" value="afternoon">
+               <label for="secondHalfDay">下半天</label>
+            </div>
+            <div class="fee-title">導覽費用：</div>
+            <div class="fee">新台幣 <span class="fee-number"></span> 元</div>
+            <input type="number" name="price" id="priceInput" style="display: none;">
+            <button type="submit">開始預訂行程</button>
          </form>
-         <a href="#modalSignup" id="goSignup">還沒有帳戶？點此註冊</a>
-		</div>
-	</div>
-	<div class="modal signup" id="modalSignup">
-		<div class="modal-header"></div>
-		<div class="modal-body">
-			<div class="title">註冊會員帳號</div>
-			<button data-close-button class="close-button"></button>
-         <form action="#" method="POST">
-            <input type="text" name="name" placeholder="輸入姓名" required>
-            <input type="email" name="email" placeholder="輸入電子信箱" required>
-            <input type="password" name="password" placeholder="輸入密碼" required>
-            <button type="submit">註冊新帳戶</button>
-         </form>
-         <a href="#modalSignin" id="goSignin">已經有帳戶了？點此登入</a>
-		</div>
-	</div>
-	<div id="overlay"></div>
-
-   <div class="attraction-introduction">
-      <div class="carousel">
-         <div class="attraction-image"></div>
-         <img id="left-arrow" src="{{ url_for('static', filename='image/btn_leftArrow.png') }}" alt="">
-         <img id="right-arrow" src="{{ url_for('static', filename='image/btn_rightArrow.png') }}" alt="">
-         <div class="circle-area"></div>
-      </div>
-      <div class="information">
-         <div class="name"></div>
-         <div class="category-mrt"></div>
-         <div class="schedule-order">
-            <div class="title">訂購導覽行程</div>
-            <div class="text">以此景點為中心的一日行程，帶您探索城市角落故事</div>
-            <form action="/api/booking" id="form" method="POST">
-               <input type="text" name="id" id="idInput" style="display: none;">
-               <div class="date-title">選擇日期：</div>
-               <div class="date">
-                  <input type="date" name="date" id="date" required>
-               </div>
-               <div class="time-title">選擇時間：</div>
-               <div class="time">
-                  <input type="radio" name="halfDay" id="firstHalfDay" value="morning" required checked>
-                  <label for="firstHalfDay">上半天</label>
-                  <input type="radio" name="halfDay" id="secondHalfDay" value="afternoon">
-                  <label for="secondHalfDay">下半天</label>
-               </div>
-               <div class="fee-title">導覽費用：</div>
-               <div class="fee">新台幣 <span class="fee-number"></span> 元</div>
-               <input type="text" name="price" id="priceInput" style="display: none;">
-               <button type="submit">開始預訂行程</button>
-            </form>
-         </div>
       </div>
    </div>
+</div>
 
-   <hr>
+<hr>
 
-   <section>
-      <div class="description"></div>
-      <div class="addressArea">
-         <div class="title">景點地址：</div> 
-         <div class="address"></div>
-      </div>
-      <div class="transportArea">
-         <div class="title">交通方式：</div>
-         <div class="transport"></div>
-      </div>
-   </section>
-
-   <footer class="footer">
-      <div class="text">COPYRIGHT © 2021 台北一日遊</div>
-   </footer>   
-</body>
-</html>
+<section>
+   <div class="description"></div>
+   <div class="addressArea">
+      <div class="title">景點地址：</div> 
+      <div class="address"></div>
+   </div>
+   <div class="transportArea">
+      <div class="title">交通方式：</div>
+      <div class="transport"></div>
+   </div>
+</section>
+{% endblock %}

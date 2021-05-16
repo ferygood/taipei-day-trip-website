@@ -5,14 +5,22 @@ import json
 
 load_dotenv()
 
-taipeiDB = mysql.connector.connect(
-   host = "127.0.0.1",
-   port = 3306,
-   user = "root",
-   password = "yaomysql86",
-   database = "taipei",
-   charset = "utf8"
-)
+def init_db():
+   return mysql.connector.connect(
+      host = os.getenv("SERVER_HOST"),
+      port = os.getenv("SERVER_PORT"),
+      user = os.getenv("SERVER_USER"),
+      password = os.getenv("SERVER_PASSWORD"),
+      database = os.getenv("SERVER_DATABASE"),
+      charset = "utf8")
+
+taipeiDB = init_db()
+
+# try:
+#    taipeiDB.ping(True)
+# except mysql.connector.Error as err:
+#    print(err)
+#    taipeiDB.reconnect()
 
 taipeiCursor = taipeiDB.cursor()
 
@@ -111,7 +119,7 @@ def insertUser(**kwargs):
 
       for key in kwargs:
         insertColumn += f"{ key }, "
-        insertValue += f"{ kwargs[key] }, "
+        insertValue += f"'{ kwargs[key] }', "
 
       insertColumn = insertColumn[:-2]
       insertValue = insertValue[:-2]
@@ -132,9 +140,13 @@ def insertUser(**kwargs):
 def selectBooking(**kwargs):
    # bookingsDataList = []
    try:
-      sql_cmd = """
-               SELECT attractionId, date, time, price
-               FROM bookings 
+      sql_cmd = f"""
+               SELECT a.id, a.name, a.address, a.images, b.date, b.time, b.price  
+               FROM bookings b 
+               JOIN attractions a ON b.attractionId = a.id 
+               WHERE b.userId = {kwargs["userId"]}
+               ORDER BY b.id DESC
+               LIMIT 0, 1
                """
 
       taipeiCursor.execute(sql_cmd)
@@ -163,7 +175,6 @@ def insertBooking(**kwargs):
 
       insertColumn = insertColumn[:-2]
       insertValue = insertValue[:-2]
-      print(insertValue)      
 
       sql_cmd = f"""
             INSERT INTO bookings ({ insertColumn })
@@ -177,13 +188,13 @@ def insertBooking(**kwargs):
    except Exception as e:
       print(e)
 
-def deleteBooking(**kwargs):
+def deleteBookingData(**kwargs):
    try:
       deleteBookingId = kwargs["id"]
 
       sql_cmd = f"""
             DELETE FROM bookings 
-            WHERE attractionId = {deleteBookingId}
+            WHERE id = {deleteBookingId}
             """
 
       taipeiCursor.execute(sql_cmd)

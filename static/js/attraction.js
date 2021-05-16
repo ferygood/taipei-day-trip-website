@@ -1,6 +1,3 @@
-
-let isFetching = false; 
-
 const currentUrl = location.href;
 const currentUrlArray = currentUrl.split('/')
 
@@ -26,18 +23,16 @@ function priceShow() {
       feeNumberElement.innerText = 2000;
    } else if (halfDayChecked.value === 'afternoon') {
       feeNumberElement.innerText = 2500;
-   } 
+   }
+
+   const priceInput = document.getElementById('priceInput');
+   priceInput.value = feeNumberElement.innerText;
 }
 priceShow();
-
-const priceInput = document.getElementById('priceInput');
-priceInput.value = feeNumberElement.innerText;
 
 showAttraction();
 
 function showAttraction() {
-   isFetching = true;
-
    const src = srcDetermine(id);
    if (!src) {
       return;
@@ -53,7 +48,7 @@ function removeAllChildNodes(parent) {
 
 function srcDetermine(id) {
    if (id >= 1) {
-      return `../api/attraction/${id}`;
+      return `/api/attraction/${id}`;
    } 
    return null;
 }
@@ -66,10 +61,6 @@ function fetchAPI(src) {
 
          createDetermine(attractionData);
       })
-      .then(() => {
-            isFetching = false;
-         }
-      )
       .catch(error => console.log(error));
 }
 
@@ -205,3 +196,59 @@ function nextImage() {
 
 leftArrow.addEventListener('click', lastImage);
 rightArrow.addEventListener('click', nextImage);
+
+/* Go Booking Page */
+const form = document.getElementById('form');
+form.addEventListener('submit', e => {
+   e.preventDefault();
+
+   goBooking();
+})
+
+function goBooking() {
+   const id = document.getElementById('idInput').value;
+   const date = document.getElementById('date').value;
+   const time = document.querySelector('input[name=halfDay]:checked').value;
+   const price = document.getElementById('priceInput').value;
+
+   const src = '/api/booking';
+   fetch(src, {
+      method: 'POST',
+      headers: {
+         'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+         "attrationId": id,
+         "date": date,
+         "time": time,
+         "price": price
+      })
+   })
+      .then(response => response.json())
+      .then(result => {
+         const bookingSuccess = result['ok'];
+         const bookingFalied = result['error'];
+
+         if (bookingSuccess) {
+            alert('即將前往預訂頁面');
+            parent.location.href = '/booking';
+         }
+         if (bookingFalied) {
+            alert(result['message']);
+
+            const openModalButtons = document.querySelectorAll('[data-modal-target]');
+
+            openModalButtons.forEach(button => {
+               const modal = document.querySelector(button.dataset.modalTarget); 
+               openModal(modal);
+            });
+         }
+      })
+      .catch(err => console.log('錯誤', err));
+}
+
+function openModal(modal) {
+   if (modal == null) return
+   modal.classList.add('active');
+   overlay.classList.add('active');
+}

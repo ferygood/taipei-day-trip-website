@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>{% block title %}{% endblock %}</title>
+   <link href="{{ url_for('static', filename='css/navbar.css') }}" rel="stylesheet" type="text/css" media="all">
+   <link href="{{ url_for('static', filename='css/header.css') }}" rel="stylesheet" type="text/css" media="all">
+   {% block css %}{% endblock %}
+   <link href="{{ url_for('static', filename='css/media.css') }}" rel="stylesheet" type="text/css" media="all">
+   {% block js %}{% endblock %}
+   <script defer src="{{ url_for('static', filename='js/signin-up.js') }}"></script>
+   <script defer src="{{ url_for('static', filename='js/signin-confirm.js') }}"></script>
+</head>
+<body>
+   <div class="nav">
+      <nav class="navbar">
+         <div class="title"><a href="/">台北一日遊</a></div>
+         <div class="navbar-links">
+            <ul>
+               <li><a href="/booking" target="_self">預定行程</a></li>
+               <li><button id="signinButton" data-modal-target="#modalSignin">登入/註冊</button></li>
+               <li><button id="signoutButton" class="hidden">登出系統</button></li>
+            </ul>
+         </div>
+      </nav>
+   </div>
+
+   {% block content %}{% endblock %}
+
+	<div class="modal signup" id="modalSignup">
+		<div class="modal-header"></div>
+		<div class="modal-body">
+			<div class="title">註冊會員帳號</div>
+			<button data-close-button class="close-button"></button>
+         <form id="signupForm" method="POST">
+            <input type="text" name="name" id="signupName" placeholder="輸入姓名" onfocus="this.select();" required>
+            <input type="email" name="email" id="signupEmail" placeholder="輸入電子信箱" onfocus="this.select();" required>
+            <input type="password" name="password" id="signupPassword" placeholder="密碼(至少 4 碼，須含英文大小寫及數字" onfocus="this.select();" minlength="4" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$" required>
+            <button type="submit" id="signupButtonInModal">註冊新帳戶</button>
+         </form>
+         <div class="errorText" id="signupMessage"></div>
+         <button type="button" id="goSignin">已經有帳戶了？點此登入</button>
+		</div>
+	</div>
+	<div class="modal" id="modalSignin">
+		<div class="modal-header"></div>
+		<div class="modal-body">
+			<div class="title">登入會員帳號</div>
+			<button data-close-button class="close-button"></button>
+         <form action="{{ url_for('booking') }}" id="signinForm" method="POST">
+            <input type="email" name="email" placeholder="輸入電子信箱" id="signinEmail" onfocus="this.select();" required>
+            <input type="password" name="password" placeholder="密碼(至少 4 碼，須含英文大小寫及數字" id="signinPassword" onfocus="this.select();" minlength="4" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$" required>
+            <button type="submit" id="signinButtonInModal">登入帳戶</button>
+         </form>
+         <div class="errorText" id="signinMessage"></div>
+         <button type="button" id="goSignup">還沒有帳戶？點此註冊</button>
+		</div>
+	</div>
+	<div id="overlay"></div>
+
+   <footer class="footer">
+      <div class="text">COPYRIGHT © 2021 台北一日遊</div>
+   </footer>
+</body>
+</html>

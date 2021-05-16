@@ -20,14 +20,15 @@ searchform.addEventListener('submit', (e) => {
    search();
 });
 
+/* 
 const searchInput = document.getElementById('searchInput');
 searchInput.addEventListener('keyup', e => {
    if (e.code == 'Enter') {
       e.preventDefault();
       document.getElementById('searchInput').blur();
    }
-})
-
+});
+ */
 search();
 
 function search() {
@@ -49,10 +50,10 @@ function removeAllChildNodes(parent) {
 
 function srcDetermine(page, keyword) {
    if (page != null && keyword) {
-      return `api/attractions?page=${page}&keyword=${keyword}`;
+      return `/api/attractions?page=${page}&keyword=${keyword}`;
    }
    if (page != null) {
-      return `api/attractions?page=${page}`;
+      return `/api/attractions?page=${page}`;
    }
    return null;
 }
@@ -102,7 +103,7 @@ function createAPIElement(attractionData, attractionElement) {
    let category = attractionData.category;
    let id = attractionData.id;
 
-   attractionElement.href = `attraction/${id}`;
+   attractionElement.href = `/attraction/${id}`;
 
    let attractionImage = document.createElement('div');
    attractionImage.classList.add('attraction-image');
