@@ -1,115 +1,60 @@
-<!--
-<!DOCTYPE html>
-<html lang="en">
-<head>
-   <meta charset="UTF-8">
-   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Booking</title>
-   <link href="{{ url_for('static', filename='css/navbar.css') }}" rel="stylesheet" type="text/css" media="all">
-   <link href="{{ url_for('static', filename='css/header.css') }}" rel="stylesheet" type="text/css" media="all">
-   <link href="{{ url_for('static', filename='css/booking.css') }}" rel="stylesheet" type="text/css" media="all">
-   <link href="{{ url_for('static', filename='css/media.css') }}" rel="stylesheet" type="text/css" media="all">
-   <script defer src="{{ url_for('static', filename='js/booking.js') }}"></script>
-   <script defer src="{{ url_for('static', filename='js/signin-up.js') }}"></script>
-</head>
-<body>
-   <div class="nav">
-      <nav class="navbar">
-         <div class="title"><a href="/">台北一日遊</a></div>
-         <div class="navbar-links">
-            <ul>
-               <li><a href="/booking" target="_self">預定行程</a></li>
-               <li><button data-modal-target="#modalSignin">登入/註冊</button></li>
-            </ul>
+{% extends "base.html" %}
+
+{% block title %}Booking{% endblock %}
+
+{% block css %}<link href="{{ url_for('static', filename='css/booking.css') }}" rel="stylesheet" type="text/css" media="all">{% endblock %}
+
+{% block js %}<script defer src="{{ url_for('static', filename='js/booking.js') }}"></script>{% endblock %}
+
+{% block content %}
+<form method="POST" class="booking">
+   <div class="welcome"></div>
+   <div class="booking-attraction">
+      <div class="attraction-image"></div>
+      <div class="information">
+         <div class="name"></div>
+         <div class="detail">
+            <div class="date-title">日期：</div>
+            <div class="date"></div>
+            <div class="time-title">時間：</div>
+            <div class="time"></div>
+            <div class="fee-title">費用：</div>
+            <div class="fee"></div>
+            <div class="address-title">地點：</div>
+            <div class="address"></div>
          </div>
-      </nav>
-   </div>
-
-   <div class="modal" id="modalSignin">
-		<div class="modal-header"></div>
-		<div class="modal-body">
-			<div class="title">登入會員帳號</div>
-			<button data-close-button class="close-button"></button>
-         <form method="POST">
-            <input type="email" name="email" placeholder="輸入電子信箱" required>
-            <input type="password" name="password" placeholder="輸入密碼" required>
-            <button type="submit">登入帳戶</button>
-         </form>
-         <a href="#modalSignup" id="goSignup">還沒有帳戶？點此註冊</a>
-		</div>
-	</div>
-	<div class="modal signup" id="modalSignup">
-		<div class="modal-header"></div>
-		<div class="modal-body">
-			<div class="title">註冊會員帳號</div>
-			<button data-close-button class="close-button"></button>
-         <form action="#" method="POST">
-            <input type="text" name="name" placeholder="輸入姓名" required>
-            <input type="email" name="email" placeholder="輸入電子信箱" required>
-            <input type="password" name="password" placeholder="輸入密碼" required>
-            <button type="submit">註冊新帳戶</button>
-         </form>
-         <a href="#modalSignin" id="goSignin">已經有帳戶了？點此登入</a>
-		</div>
-	</div>
-	<div id="overlay"></div>
-
-   <form action="/api/orders" method="POST" class="booking">
-      <div class="welcome">您好，Yakko，待預訂的行程如下：</div>
-      <div class="welcome">您好，待預訂的行程如下：</div>
+      </div>
       <div class="delete-icon"><img src="../static/image/icon_delete.png" alt=""></div>
-      <div class="booking-attraction">
-         <div class="attraction-image"><img src="http://www.travel.taipei/d_upload_ttn/sceneadmin/pic/11000848.jpg" alt=""></div>
-         <div class="information">
-            <div class="name">台北一日遊：平安鐘</div>
-            <div class="detail">
-               <div class="date-title">日期：</div>
-               <div class="date">2021-04-23</div>
-               <div class="time-title">時間：</div>
-               <div class="time">早上 9 點到下午 4 點</div>
-               <div class="fee-title">費用：</div>
-               <div class="fee">新台幣 2000 元</div>
-               <div class="address-title">地點：</div>
-               <div class="address">臺北市 大安區忠孝東路4段</div>
-            </div>
-         </div>
+   </div>
+   <hr>
+   <div class="user-data">
+      <div class="title">您的聯絡資訊</div>
+      <div class="user-detail">
+         <label for="name">聯絡姓名：</label>
+         <input type="text" name="name" id="name" placeholder="請輸入姓名" required>
+         <label for="email">連絡信箱：</label>
+         <input type="email" name="email" id="email" placeholder="請輸入信箱" required>
+         <label for="phone-number">手機號碼：</label>
+         <input type="text" name="phone-number" id="phone-number" placeholder="請輸入手機號碼" required>
       </div>
-      <hr>
-      <div class="user-data">
-         <div class="title">您的聯絡資訊</div>
-         <div class="user-detail">
-            <label for="name">聯絡姓名：</label>
-            <input type="text" name="name" id="name" placeholder="請輸入姓名" required>
-            <label for="email">連絡信箱：</label>
-            <input type="email" name="email" id="email" placeholder="請輸入信箱" required>
-            <label for="phone-number">手機號碼：</label>
-            <input type="text" name="phone-number" id="phone-number" placeholder="請輸入手機號碼" required>
-         </div>
-         <div class="notice-message">請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</div>
+      <div class="notice-message">請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</div>
+   </div>
+   <hr>
+   <div class="credit-card-data">
+      <div class="title">信用卡付款資訊</div>
+      <div class="credit-card-detail">
+         <label for="card-number">卡片號碼：</label>
+         <input type="text" name="card-number" id="card-number" pattern="/d*" x-autocompletertype="cc-number" placeholder="**** **** **** ****" required>
+         <label for="overdue-date">過期時間：</label>
+         <input type="text" name="overdue-date" id="overdue-date" pattern="/d*" x-autocompletetype="cc-exp" placeholder="MM / YY" required>
+         <label for="verified-password">驗證密碼：</label>
+         <input type="text" name="verified-password" id="verified-password" pattern="/d*" x-autocompletetype="cc-csc" placeholder="CVV" required autocomplete="off">
       </div>
-      <hr>
-      <div class="credit-card-data">
-         <div class="title">信用卡付款資訊</div>
-         <div class="credit-card-detail">
-            <label for="card-number">卡片號碼：</label>
-            <input type="text" name="card-number" id="card-number" pattern="/d*" x-autocompletertype="cc-number" placeholder="**** **** **** ****" required>
-            <label for="overdue-date">過期時間：</label>
-            <input type="text" name="overdue-date" id="overdue-date" pattern="/d*" x-autocompletetype="cc-exp" placeholder="MM / YY" required>
-            <label for="verified-password">驗證密碼：</label>
-            <input type="text" name="verified-password" id="verified-password" pattern="/d*" x-autocompletetype="cc-csc" placeholder="CVV" required autocomplete="off">
-         </div>
-      </div>
-      <hr>
-      <div class="final-check">
-         <div class="total-price">總價：新台幣 2000 元</div>
-         <button type="submit" class="submit-button">確認訂購並付款</button>
-      </div>
-   </form>
-
-   <footer class="footer">
-      <div class="text">COPYRIGHT © 2021 台北一日遊</div>
-   </footer>
-</body>
-</html>
--->
+   </div>
+   <hr>
+   <div class="final-check">
+      <div class="total-price">總價：新台幣 2000 元</div>
+      <button type="submit" class="submit-button">確認訂購並付款</button>
+   </div>
+</form>
+{% endblock %}

@@ -1,9 +1,7 @@
 from flask import Flask, Blueprint, render_template, session
 from datetime import timedelta
 import os
-
 from mysql_connect import selectAttractions, selectAttraction
-
 from api.attraction import api_attraction
 from api.user import api_user
 from api.booking import api_booking
@@ -36,16 +34,6 @@ def booking():
 def thankyou():
 	return render_template("thankyou.html")
 
-# Signin-up
-@app.route("/signin")
-def signin():
-	return "signin"
-
-@app.route("/signup")
-def signup():
-	return "signup"
-
 if __name__ == "__main__":
-	app.config['TEMPLATES_AUTO_RELOAD'] = True
 	# debug 記得關掉
-	app.run(host="0.0.0.0", port=3000, debug=False)
+	app.run(host="0.0.0.0", port=3000, debug=True)
