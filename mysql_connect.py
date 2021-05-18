@@ -1,4 +1,5 @@
 import mysql.connector
+from mysql.connector import pooling
 from dotenv import load_dotenv
 import os
 import json
@@ -8,7 +9,7 @@ load_dotenv()
 def init_db():
    return mysql.connector.connect(
       user = "root",
-      password = "Mysqlyao%%%",
+      password = "Mysqlyao86%%%",
       database = "taipei",
       charset = "utf8")
 
