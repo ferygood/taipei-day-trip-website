@@ -6,9 +6,11 @@ import json
 load_dotenv()
 
 websiteDB = mysql.connector.connect(
-   user = "root",
-   password = "Mysqlyao%%%",
-   database = "taipei",
+   host = os.getenv("SERVER_HOST"),
+   port = os.getenv("SERVER_PORT"),
+   user = os.getenv("SERVER_USER"),
+   password = os.getenv("SERVER_PASSWORD"),
+   database = os.getenv("SERVER_DATABASE"),
    charset = "utf8"
 )
 

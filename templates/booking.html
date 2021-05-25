@@ -4,24 +4,31 @@
 
 {% block css %}<link href="{{ url_for('static', filename='css/booking.css') }}" rel="stylesheet" type="text/css" media="all">{% endblock %}
 
-{% block js %}<script defer src="{{ url_for('static', filename='js/booking.js') }}"></script>{% endblock %}
+{% block js %}<script src="https://js.tappaysdk.com/tpdirect/v5.5.1"></script>
+   <script type="module" src="{{ url_for('static', filename='js/booking.js') }}"></script>{% endblock %}
 
 {% block content %}
-<form method="POST" class="booking">
-   <div class="welcome"></div>
+<div class="welcome"></div>
+<form method="POST" class="booking" id="order-form">
    <div class="booking-attraction">
       <div class="attraction-image"></div>
+      <input type="hidden" id="attraction-image">
       <div class="information">
+         <input type="hidden" id="attraction-id">
          <div class="name"></div>
+         <input type="hidden" id="attraction-name">
          <div class="detail">
             <div class="date-title">日期：</div>
             <div class="date"></div>
+            <input type="hidden" id="date">
             <div class="time-title">時間：</div>
             <div class="time"></div>
+            <input type="hidden" id="time">
             <div class="fee-title">費用：</div>
             <div class="fee"></div>
             <div class="address-title">地點：</div>
             <div class="address"></div>
+            <input type="hidden" id="address">
          </div>
       </div>
       <div class="delete-icon"><img src="../static/image/icon_delete.png" alt=""></div>
@@ -48,12 +55,13 @@
          <label for="overdue-date">過期時間：</label>
          <input type="text" name="overdue-date" id="overdue-date" pattern="/d*" x-autocompletetype="cc-exp" placeholder="MM / YY" required>
          <label for="verified-password">驗證密碼：</label>
-         <input type="text" name="verified-password" id="verified-password" pattern="/d*" x-autocompletetype="cc-csc" placeholder="CVV" required autocomplete="off">
+         <input type="text" name="verified-password" id="verified-password" pattern="/d*" x-autocompletetype="cc-csc" placeholder="ccv" required autocomplete="off">
       </div>
    </div>
    <hr>
    <div class="final-check">
-      <div class="total-price">總價：新台幣 2000 元</div>
+      <div class="total-price"></div>
+      <input type="hidden" id="total-price">
       <button type="submit" class="submit-button">確認訂購並付款</button>
    </div>
 </form>

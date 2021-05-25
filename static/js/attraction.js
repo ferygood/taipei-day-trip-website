@@ -80,7 +80,6 @@ function createDetermine(attractionData) {
    }
 }
 
-
 function createAPIElement(attractionData) {
    let images = attractionData.images;
    let name = attractionData.name;
@@ -206,13 +205,31 @@ form.addEventListener('submit', e => {
 })
 
 function goBooking() {
+   const getUserSrc = '/api/user';
+   fetch(getUserSrc)
+      .then(response => response.json())
+      .then(result => {
+         const userData = result.data;
+         if (userData) {
+            return;
+         } else {
+            const openModalButtons = document.querySelectorAll('[data-modal-target]');
+   
+            openModalButtons.forEach(button => {
+               const modal = document.querySelector(button.dataset.modalTarget); 
+               openModal(modal);
+            });
+         }
+      })
+      .catch(error => console.log(error));   
+
    const id = document.getElementById('idInput').value;
    const date = document.getElementById('date').value;
    const time = document.querySelector('input[name=halfDay]:checked').value;
    const price = document.getElementById('priceInput').value;
 
-   const src = '/api/booking';
-   fetch(src, {
+   const postBookingSrc = '/api/booking';
+   fetch(postBookingSrc, {
       method: 'POST',
       headers: {
          'Content-Type': 'application/json'
@@ -230,21 +247,13 @@ function goBooking() {
          const bookingFalied = result['error'];
 
          if (bookingSuccess) {
-            alert('即將前往預訂頁面');
             parent.location.href = '/booking';
          }
          if (bookingFalied) {
-            alert(result['message']);
-
-            const openModalButtons = document.querySelectorAll('[data-modal-target]');
-
-            openModalButtons.forEach(button => {
-               const modal = document.querySelector(button.dataset.modalTarget); 
-               openModal(modal);
-            });
+            return;
          }
       })
-      .catch(err => console.log('錯誤', err));
+      .catch(err => console.log('錯誤', err));   
 }
 
 function openModal(modal) {
@@ -252,3 +261,23 @@ function openModal(modal) {
    modal.classList.add('active');
    overlay.classList.add('active');
 }
+
+/* input date: min today */
+function minToday() {
+   let totay = new Date();
+   let dd = totay.getDate();
+   let mm = totay.getMonth() + 1;
+   const yyyy = totay.getFullYear();
+
+   if (dd < 10) {
+      dd = `0${dd}`;
+   }
+   if (mm < 10) {
+      mm = `0${mm}`;
+   }
+
+   today = `${yyyy}-${mm}-${dd}`;
+   document.getElementById('date').setAttribute('min', today);
+}
+
+minToday();

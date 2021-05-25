@@ -1,7 +1,9 @@
 from flask import Flask, Blueprint, render_template, session
 from datetime import timedelta
 import os
+
 from mysql_connect import selectAttractions, selectAttraction
+
 from api.attraction import api_attraction
 from api.user import api_user
 from api.booking import api_booking

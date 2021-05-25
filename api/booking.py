@@ -1,11 +1,11 @@
 import sys
 sys.path.append("..")
 
-from flask import request, Blueprint, jsonify, session, redirect, url_for
+from flask import request, Blueprint, jsonify, session
 from datetime import datetime
 import json
 
-from mysql_connect import selectBooking, insertBooking, selectAttraction, deleteBookingData
+from mysql_connect import selectBooking, insertBooking, deleteBookingData
  
 api_booking = Blueprint("api_booking", __name__)
 
@@ -64,14 +64,16 @@ def postBooking():
 def deleteBooking():
    try:
       if "user" in session:
-         id = 1
-         deleteBookingData(id = id)
+         userId = request.get_json()["userId"]
+         deleteBookingData(userId = userId)
 
-         deletedBooking = selectBooking(id = id)
+         deletedBooking = selectBooking(userId = userId)
          if not deletedBooking:
             return jsonify({ "ok": True })
          else:
             return jsonify({ "error": True, "message": "刪除失敗" })
+      else:
+         return jsonify({ "error": True, "message": "未登入系統，拒絕存取" })
    except Exception as e:
       print(e)
       return jsonify({ "error": True, "message": "伺服器內部錯誤" })
