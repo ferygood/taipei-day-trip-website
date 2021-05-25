@@ -1,19 +1,8 @@
-/* booking */
-.booking {
-   display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;
-   gap: 35px;
-
+/* welcome */
+.welcome {
    position: relative;
    top: 54px;
 
-   margin: 55px auto;
-   padding: 0px 100px;
-
-   width: var(--content-width);
-   max-width: 90%;
-}
-
-.booking .welcome {
    font-family: Noto Sans TC;
    font-style: normal;
    font-weight: bold;
@@ -23,9 +12,31 @@
    display: flex;
    align-items: center;
 
-   width: 100%;
+   margin: 55px auto;
+   padding: 0px 100px;
+
+   width: var(--content-width);
+   max-width: 90%;
 
    color: #666666;
+}
+
+/* booking */
+.booking {
+   display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;
+   gap: 35px;
+
+   position: relative;
+   top: 54px;
+
+   margin-bottom: 55px;
+   margin-left: auto;
+   margin-right: auto;
+   padding: 0px 100px;
+
+   width: var(--content-width);
+   max-width: 90%;
+   min-height: 65vh;
 }
 
 /* booking-attraction */
@@ -76,6 +87,8 @@
    height: 100%;
 
    border-radius: 5px;
+
+   object-fit: cover;
 }
 
 .booking .booking-attraction .information {
@@ -101,7 +114,7 @@
 
 .booking .booking-attraction .information .detail {
    display: grid;
-   grid-template-columns: 50px 200px;
+   grid-template-columns: 50px 400px;
    grid-template-rows: minmax(0, 1fr);
    gap: 10px 5px;
 

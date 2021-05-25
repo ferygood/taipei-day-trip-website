@@ -1,3 +1,6 @@
+import { tappayDealWith } from './tappay.js';
+
+let userId;
 
 /* user name */
 function getUser() {
@@ -6,20 +9,28 @@ function getUser() {
       .then(response => response.json())
       .then(result => {
          const userData = result.data;
+
+         const welcomeElement = document.getElementsByClassName('welcome')[0];
+         const nameElement = document.getElementById('name');
+         const emailElememt = document.getElementById('email');
+
          if (userData) {
-/*             const welcomeElement = document.createElement('div');
-            welcomeElement.classList.add('welcome');
-            
-            const bookingElement = document.getElementsByClassName('booking')[0];
-            const bookingAttractionElement = document.getElementsByClassName('booking-attraction')[0];
-            bookingElement.insertBefore(welcomeElement, bookingAttractionElement); */
+            welcomeElement.innerText = `您好，${userData.name}，待預訂的行程如下：`;
 
-            const welcomeElement = document.getElementsByClassName('welcome')[0];
+            nameElement.value = userData.name;
+            nameElement.innerText = userData.name;
 
-            const welcomeContent = document.createTextNode(`您好，${userData.name}，待預訂的行程如下：`);
-            welcomeElement.appendChild(welcomeContent);
+            emailElememt.value = userData.email;
+            emailElememt.innerText = userData.email;
+
+            userId = userData.id;
          } else {
-            return;
+/*             
+            const bookingElement = document.getElementsByClassName('booking')[0];
+
+            removeAllChildNodes(bookingElement);
+ */
+            parent.location.href = '/';
          }
       })
       .catch(error => console.log(error));
@@ -49,7 +60,7 @@ function removeAllChildNodes(parent) {
    while (parent.firstChild) {
       parent.removeChild(parent.firstChild);
    }
-}   
+}
 
 function fetchAPI(src) {
    fetch(src)
@@ -79,6 +90,7 @@ function createDetermine(bookingData) {
 
 
 function createAPIElement(bookingData) {
+   const id = bookingData.attraction.id;
    const image = bookingData.attraction.image;
    const name = bookingData.attraction.name;
    const date = bookingData.date;
@@ -90,27 +102,38 @@ function createAPIElement(bookingData) {
    if (time === 'afternoon') {
       actualTime = '中午 12 點到下午 4 點';
    }
-   const price = bookingData.price; 
+   const price = bookingData.price;
    const address = bookingData.attraction.address;
+
+   document.getElementById('attraction-id').value = id;
 
    let imageElement = document.createElement('img');
    imageElement.src = image;
    attractionImageElement.appendChild(imageElement);
+   document.getElementById('attraction-image').value = image;
 
    let nameContent = document.createTextNode(`台北一日遊：${name}`);
    attractionNameElement.appendChild(nameContent);
+   document.getElementById('attraction-name').value = name;
 
    let dateContent = document.createTextNode(date);
    dateElement.appendChild(dateContent);
+   document.getElementById('date').value = date;
 
    let timeContent = document.createTextNode(actualTime);
    timeElement.appendChild(timeContent);
+   document.getElementById('time').value = time;
 
    let feeContent = document.createTextNode(`新台幣 ${price} 元`);
    feeElement.appendChild(feeContent);
 
    let addressContent = document.createTextNode(address);
    addressElement.appendChild(addressContent);
+   document.getElementById('address').value = address;
+
+   const totalPriceElement = document.getElementsByClassName('total-price')[0];
+   totalPriceElement.innerText = `總價：新台幣 ${price} 元`;
+   document.getElementById('total-price').value = price;
 }
 
 /* delete icon */
@@ -122,9 +145,100 @@ Array.from(deleteIcons).forEach(deleteIcon => {
 
 function deleteBooking() {
    const yes = confirm('您確定要刪除嗎');
+
    if (yes) {
       this.parentElement.remove();
-      alert('刪除成功');
+
+      const src = '/api/booking';
+      fetch(src, {
+         method: 'DELETE',
+         headers: {
+            'Content-Type': 'application/json'
+         },
+         body: JSON.stringify({
+            "userId": userId,
+         })
+      })
+         .then(response => response.json())
+         .then(result => {
+            const deleteSuccess = result['ok'];
+            const deleteFailed = result['error'];
+
+            if (deleteSuccess) {
+               location.reload();
+            }
+            if (deleteFailed) {
+               alert(result['message']);
+            }
+         })
+         .catch(err => console.log('錯誤', err));
+   } else {
+      return;
+   }
+}
+
+/* go /api/order */
+const orderForm = document.getElementById('order-form');
+orderForm.addEventListener('submit', e => {
+   e.preventDefault();
+
+   goOrder();
+})
+
+function goOrder() {
+   const yes = confirm('您確定要訂購此行程並付款嗎？');
+
+   // TBD
+   const prime = 'adgb45f6';
+
+   const price = document.getElementById('total-price').value;
+
+   const attractionId = docuement.getElementById('attraction-id').value;
+   const attractionName = docuement.getElementById('attraction-name').value;
+   const address = docuement.getElementById('address').value;
+   const image = docuement.getElementById('attraction-image').value;
+
+   const date = document.getElementById('date').value;
+   const time = document.getElementById('time').value;
+
+   const name = document.getElementById('name').value;
+   const email = docuement.getElementById('email').value;
+   const phoneNumber = document.getElementById('phone-number').value;
+
+   if (yes) {
+      const src = '/api/booking';
+      fetch(src, {
+         method: 'POST',
+         headers: {
+            'Content-Type': 'application/json'
+         },
+         body: JSON.stringify({
+            "prime": prime,
+            "order": {
+               "price": price,
+               "trip": {
+                  "attraction": {
+                     "id": attractionId,
+                     "name": attractionName,
+                     "address": address,
+                     "image": image
+                  },
+                  "date": date,
+                  "time": time
+               },
+               "contact": {
+                  "name": name,
+                  "email": email,
+                  "phone": phoneNumber
+               }
+            }
+         })
+      })
+         .then(response => response.json())
+         .then(result => {
+
+         })
+         .catch(err => console.log('錯誤', err));
    } else {
       return;
    }

@@ -8,7 +8,7 @@ let isFetching = false;
 // search form
 const searchform = document.getElementById('searchform');
 
-searchform.addEventListener('submit', (e) => {
+searchform.addEventListener('submit', e => {
    e.preventDefault();
 
    const mainElement = document.getElementsByClassName('main')[0];
@@ -61,7 +61,7 @@ function srcDetermine(page, keyword) {
 function fetchAPI(src) {
    fetch(src)
       .then(response => response.json())
-      .then((result) => {
+      .then(result => {
          let attractionDataArray = result.data;
          let nextPage = result.nextPage;
          

@@ -169,7 +169,6 @@ function signinCheck() {
             signinMessageElement.classList.remove('show');
 
             location.reload();
-            // location = location;
             
             closeModalButtons.forEach(button => {
                const modal = button.closest('.modal'); 
@@ -209,9 +208,6 @@ function signout() {
    
             if (signoutSuccess) {          
                location.reload(); 
-               // location = location;
-
-               // parent.location.href = '/';
             }
             if (signoutFailed) {
                alert(result['message']);
@@ -225,4 +221,3 @@ function signout() {
 }
 
 signoutButton.addEventListener('click', signout);
-

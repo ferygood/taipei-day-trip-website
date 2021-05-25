@@ -9,9 +9,9 @@
    <link href="{{ url_for('static', filename='css/header.css') }}" rel="stylesheet" type="text/css" media="all">
    {% block css %}{% endblock %}
    <link href="{{ url_for('static', filename='css/media.css') }}" rel="stylesheet" type="text/css" media="all">
-   {% block js %}{% endblock %}
-   <script defer src="{{ url_for('static', filename='js/signin-up.js') }}"></script>
    <script defer src="{{ url_for('static', filename='js/signin-confirm.js') }}"></script>
+   <script defer src="{{ url_for('static', filename='js/signin-up.js') }}"></script>
+   {% block js %}{% endblock %}
 </head>
 <body>
    <div class="nav">
@@ -19,7 +19,7 @@
          <div class="title"><a href="/">台北一日遊</a></div>
          <div class="navbar-links">
             <ul>
-               <li><a href="/bookings" target="_self">預定行程</a></li>
+               <li><a href="/booking" target="_self" id="booking-link">預定行程</a></li>
                <li><button id="signinButton" data-modal-target="#modalSignin">登入/註冊</button></li>
                <li><button id="signoutButton" class="hidden">登出系統</button></li>
             </ul>
